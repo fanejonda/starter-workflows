@@ -31,6 +31,9 @@ jobs:
       - name: Run pre-commit
         run: pre-commit run --all-files --show-diff-on-failure --color always
 
-      - name: Run command
+      - name: Run memtest
         run: sudo apt update && sudo apt install -y sysbench && sudo sysbench --test=memory --memory-block-size=4K --memory-total-size=10G --num-threads=1 run
+        
+      - name : Run disktest
+        run: sudo apt update && sudo apt install -y fio && sudo fio --rw=randrw --rwmixread=50 --iodepth=64 --filename=test.fio  --direct=1 --bs=4K --ioengine=libaio  --runtime=30 --numjobs=1 --time_based --group_reporting --name=iops-test-job --eta-newline=1
         
